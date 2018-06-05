@@ -41,8 +41,14 @@
         document.write(process.versions.electron)
     </script>.
 
-    <button id="sendSyncMsgBtn">Ping Main Process</button>
-    <p id="syncReply">Awaiting response</p>
+    <div>
+        <button id="sendSyncMsgBtn">Ping Main Process Sync</button>
+        <p id="syncReply">Awaiting response sync</p>
+
+        <button id="sendAsyncMsgBtn">Ping Main Process Async</button>
+        <p id="asyncReply">Awaiting async response</p>
+    </div>
+
 
     <script>
         // You can also require other files to run in this process

@@ -49,8 +49,24 @@ app.on("activate", function() {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// *************************
+// SYNCHRONOUS MESSAGGING
+// *************************
 ipc.on("synchronous-message", function(event, arg1, arg2) {
     console.log(arg1);
     console.log(arg2);
     event.returnValue = "I heard you!";
+});
+
+// *************************
+// ASYNCHRONOUS MESSAGGING
+// *************************
+ipc.on("asynchronous-message", function(event, arg) {
+    console.log("Main process async handle, arg is -> " + arg);
+    if (arg === "That’s one small step for man") {
+        // the channel is different to have multiple IPC messagging flows occuring
+        event.sender.send("asynchronous-reply", ", one giant leap for mankind.");
+        console.log("Message is sent.");
+    }
 });

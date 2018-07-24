@@ -20,7 +20,7 @@ export class CurrentWeatherComponent implements OnInit {
       description: ''
     }
 
-    this.weatherService.getCurrentWeather('Bethesda', 'US')
+    this.weatherService.getCurrentWeather('Rome', 'IT')
       .subscribe(
         (data) =>
           this.current = data

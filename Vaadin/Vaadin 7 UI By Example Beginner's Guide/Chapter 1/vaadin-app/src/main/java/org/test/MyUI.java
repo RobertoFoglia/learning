@@ -7,11 +7,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -26,11 +22,20 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
-        
+
+        // @@@ SET MARGIN
+        layout.setMargin(true);
+
         final TextField name = new TextField();
         name.setCaption("Type your name here:");
 
-        // @@@ FIRST EXAMPLE WITH MAIN COMPONENTS PAG 21 @@@
+
+        final TextField name1 = new TextField("Somebody's name");
+        final TextField name2 = new TextField("somebody's name");
+        layout.addComponent(name1);
+        layout.addComponent(name2);
+
+        // @@@ FIRST EXAMPLE WITH MAIN COMPONENTS PAG 21
         Button button = new Button("Click Me");
         button.addClickListener(e -> {
             {
@@ -38,12 +43,27 @@ public class MyUI extends UI {
                         + ", it works!");
                 label.setContentMode(ContentMode.HTML); // set the content as HTML text
                 layout.addComponent(label);
+                String phrase = getFunnyPhrase(
+                        name1.getValue(), name2.getValue());
+                layout.addComponent(new Label(phrase));
+                Notification.show("@@@ Fancy notification pag 25");
             }
         });
         
         layout.addComponents(name, button);
         
         setContent(layout);
+    }
+
+    public String getFunnyPhrase(String name1, String name2) {
+        String[] verbs = new String[] {
+                "eats", "melts", "breaks", "washes", "sells"};
+        String[] bodyParts = new String[] {
+                "head", "hands", "waist", "eyes", "elbows"};
+        return name1 + " " +
+                verbs[(int) (Math.random() * 100 % verbs.length)] + " " +
+                name2 + "'s " +
+                bodyParts[(int) (Math.random() * 100 % verbs.length)];
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

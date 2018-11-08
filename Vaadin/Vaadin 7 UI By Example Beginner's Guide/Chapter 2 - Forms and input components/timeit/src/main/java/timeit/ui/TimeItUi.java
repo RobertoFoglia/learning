@@ -90,7 +90,9 @@ public class TimeItUi extends UI {
     }
 
     private void initLayout() {
+		// insert layout margin (left and right)
         layout.setMargin(true);
+		// insert layout spacing among elements
         layout.setSpacing(true);
         layout.addComponent(combo);
         layout.addComponent(textField);

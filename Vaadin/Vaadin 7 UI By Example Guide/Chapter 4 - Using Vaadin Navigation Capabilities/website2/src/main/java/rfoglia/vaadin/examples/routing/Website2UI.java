@@ -31,6 +31,7 @@ public class Website2UI extends UI {
         layout.setMargin(true);
         setContent(layout);
 
+		// @@@ Page structure with more pages and more .java
         // pag 97
 
         String page = vaadinRequest.getParameter("page");

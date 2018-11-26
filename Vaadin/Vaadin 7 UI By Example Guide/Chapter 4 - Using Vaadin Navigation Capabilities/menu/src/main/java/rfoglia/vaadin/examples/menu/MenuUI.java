@@ -40,6 +40,7 @@ public class MenuUI extends UI {
         submenu1.addItem("Option 2", null);
 
         submenu2.addItem("Option 3", null);
+        // @@@ submenu with listener
         submenu2.addItem("Option 4",
                 menuItem ->
                 Notification.show("That was option 4")

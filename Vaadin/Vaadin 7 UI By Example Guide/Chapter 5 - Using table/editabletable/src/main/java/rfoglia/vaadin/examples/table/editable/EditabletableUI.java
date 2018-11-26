@@ -30,6 +30,7 @@ public class EditabletableUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
+        layout.setSpacing(true);
         setContent(layout);
 
         Table table = new Table();
@@ -54,6 +55,8 @@ public class EditabletableUI extends UI {
         BeanItem<User> item = new BeanItem<>(user);
         table.addItem(new Object[] { "", true, new Date(), item }, 4);
 
+        // the button doesn't work
+        // TODO robertofoglia you must find the correct way to bind the User class with the view field
         Button button = new Button("change login and password");
         button.addClickListener(event -> {
             user.setLogin("roberto");

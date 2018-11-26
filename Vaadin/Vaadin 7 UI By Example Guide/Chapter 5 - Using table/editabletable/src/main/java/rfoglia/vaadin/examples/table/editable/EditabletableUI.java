@@ -1,18 +1,19 @@
 package rfoglia.vaadin.examples.table.editable;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+
+import javax.servlet.annotation.WebServlet;
+import java.util.Date;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -28,21 +29,39 @@ public class EditabletableUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
         layout.setMargin(true);
-        layout.setSpacing(true);
-        
         setContent(layout);
+
+        Table table = new Table();
+        table.setPageLength(0);
+        table.setEditable(true);
+
+        table.addContainerProperty("String", String.class, "");
+        table.addContainerProperty("Boolean", Boolean.class, false);
+        table.addContainerProperty("Date", Date.class, null);
+        table.addContainerProperty("Item", Item.class, null);
+
+        // if the id is not specified then the id will be numeric 1,2,3,4
+        table.addItem();
+        table.addItem();
+        table.addItem();
+
+        User user = new User();
+        user.setLogin("mylogin");
+        user.setPassword("mypassword");
+
+        // @@@ table - data binding in view
+        BeanItem<User> item = new BeanItem<>(user);
+        table.addItem(new Object[] { "", true, new Date(), item }, 4);
+
+        Button button = new Button("change login and password");
+        button.addClickListener(event -> {
+            user.setLogin("roberto");
+            user.setPassword("foglia");
+        });
+
+        layout.addComponent(table);
+        layout.addComponent(button);
     }
 
     @WebServlet(urlPatterns = "/*", name = "EditabletableUIServlet", asyncSupported = true)

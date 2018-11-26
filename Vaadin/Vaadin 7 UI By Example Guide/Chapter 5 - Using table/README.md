@@ -11,6 +11,7 @@ In this chapter we will cover the following topics:
 * Selecting items in tables 
 * Reading data from tables 
 * Editable tables 
+    * Add our class int the cell (BeanItem<User> in editable project) 
 * Table field factories 
 * Generated columns 
 * Collapsing and reordering columns 

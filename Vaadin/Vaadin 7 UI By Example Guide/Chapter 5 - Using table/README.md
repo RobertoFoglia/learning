@@ -1,5 +1,7 @@
 # Using tables – time to talk to user
 
+THIS MODULE IS IMCOMPLETE BECAUSE IN TAGETIK THE TABLE COMPONENT IS DEPRECATED
+
 ## Introduction 
 
 In this chapter we will cover the following topics: 
@@ -23,3 +25,4 @@ in tables, and this chapter is just about that.
  
 
 ## Summary 
+

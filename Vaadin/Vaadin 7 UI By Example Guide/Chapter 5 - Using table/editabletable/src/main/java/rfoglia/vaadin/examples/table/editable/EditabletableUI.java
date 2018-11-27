@@ -40,7 +40,7 @@ public class EditabletableUI extends UI {
         table.addContainerProperty("String", String.class, "");
         table.addContainerProperty("Boolean", Boolean.class, false);
         table.addContainerProperty("Date", Date.class, null);
-        table.addContainerProperty("Item", Item.class, null);
+        table.addContainerProperty("Item", Item.class, new BeanItem<>(new User()));
 
         // if the id is not specified then the id will be numeric 1,2,3,4
         table.addItem();

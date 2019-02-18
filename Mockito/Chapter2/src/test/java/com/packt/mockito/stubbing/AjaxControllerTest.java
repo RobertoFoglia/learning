@@ -119,9 +119,9 @@ public class AjaxControllerTest {
 	
 	@Test
 	public void retrieves_empty_country_list() throws Exception {
+		// the stub is used in the RequestBuilder to parse and deserialize the request in the RetrieveCountryRequest object
 		when(request.getParameter(anyString())).thenReturn("1", "10",
 				SortOrder.ASC.name(), SortColumn.iso.name());
-
 		List<Country> countryList = new ArrayList<Country>();
 		countryList.add(new Country());
 

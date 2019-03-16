@@ -4,10 +4,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -170,7 +167,7 @@ public class AjaxControllerTest {
 		JsonDataWrapper<Country> response = ajaxController.retrieve(request);
 		assertEquals(ascCountryList, response.getRows());
 
-		// verify(request, only()).getParameter(anyString());
+//		 verify(request, only()).getParameter(anyString());
 	}
 
 	@Test
@@ -184,8 +181,23 @@ public class AjaxControllerTest {
 		request.getContextPath();
 
 		verify(request).getParameter(anyString());
+		// the below line is commented beacause it is the unexpected method
+//		verify(request).getContextPath();
 		// this will fail getContextPath() is not verified
+		// pag 56
 		verifyNoMoreInteractions(request);
+
+		/** Example:
+		//interactions
+		mock.doSomething();
+		mock.doSomethingUnexpected();
+
+		//verification
+		verify(mock).doSomething();
+
+		//following will fail because 'doSomethingUnexpected()' is unexpected
+		verifyNoMoreInteractions(mock);
+		 */
 	}
 
 	@Test

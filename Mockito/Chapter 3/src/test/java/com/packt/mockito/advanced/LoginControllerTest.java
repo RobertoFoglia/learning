@@ -15,6 +15,12 @@ import javax.servlet.http.HttpSession;
 
 import static org.mockito.Mockito.*;
 
+
+/**
+ * PAG68 Working with void methods
+ * LoginController test
+ *
+ * */
 @RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
  
@@ -43,6 +49,17 @@ public class LoginControllerTest {
 		verify(session).setAttribute(anyString(), anyString());
 		verify(request).getRequestDispatcher(eq("home.jsp"));
 		verify(dispatcher).forward(request, response);
+
+		/*  LOGINCONTROLLER CLASS - every statements is verified
+
+		if (this.ldapManager.isValidUser(userName, encrypterPassword)) {
+			req.getSession(true)
+			.setAttribute("user", userName);
+			req.getRequestDispatcher("home.jsp")
+			.forward(req, res);
+		}
+
+		*/
 	}
 	
 	@Test
@@ -55,5 +72,14 @@ public class LoginControllerTest {
 		
 		verify(request).getRequestDispatcher(eq("login.jsp"));
 		verify(dispatcher).forward(request, response);
+
+		/*  LOGINCONTROLLER CLASS - every statements is verified
+
+ 		else {
+			req.setAttribute("error", "Invalid user name or password");
+			req.getRequestDispatcher("login.jsp").forward(req, res);
+		}
+
+		*/
 	}
 }

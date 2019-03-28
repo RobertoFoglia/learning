@@ -15,6 +15,8 @@ public class DemoController extends HttpServlet {
 	private final ErrorHandler errorHandler;
 	private final MessageRepository messageRepository;
 
+	// It is used for testing scope because we need to inject the actors of interactions
+	// we pass to it the mock objects
 	public DemoController(LoginController loginController,
 			ErrorHandler errorHandler, MessageRepository messageRepository) {
 		this.loginController = loginController;
@@ -22,6 +24,7 @@ public class DemoController extends HttpServlet {
 		this.messageRepository = messageRepository;
 	}
 
+	// It is used in the real app, the container calls that construct
 	public DemoController() {
 		loginController = new LoginController(new LDAPManagerImpl());
 		errorHandler = new ErrorHandlerImpl();
@@ -42,7 +45,7 @@ public class DemoController extends HttpServlet {
 				req.getRequestDispatcher("error.jsp").forward(req, res);
 			}
 		} catch (Exception ex) {
-			
+			// The web application fails if the LDAPManager throws an exception.
 			String errorMsg = ex.getMessage();
 			Error errorDto = new Error();
 			errorDto.setTrace(ex.getStackTrace());

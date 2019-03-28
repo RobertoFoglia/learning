@@ -22,13 +22,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.*;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
+
+/**
+ * CHAPTER 3
+ * @@@ Throwing exception from void methods
+ */
+@RunWith(MockitoJUnitRunner.class)
 public class DemoControllerTest {
 	DemoController controller;
 	
@@ -42,7 +50,7 @@ public class DemoControllerTest {
 	
 	@Before
     public void beforeEveryTest(){
-    	MockitoAnnotations.initMocks(this);
+		// we pass to DemoController the mock objects
     	controller = new DemoController(loginController,errorHandler, repository);
     }
 	
@@ -79,16 +87,20 @@ public class DemoControllerTest {
 		verify(repository).lookUp(captor.capture(),captor.capture(),captor.capture());
 		assertTrue(captor.getAllValues().containsAll(Arrays.asList(errorCodes)));
 	}
-	
+
+	/**
+	 * @@@ Throwing exception from void methods
+	 * PAG 73
+	 */
 	@Test
 	public void when_subsystem_throws_any_exception_Then_routes_to_error_page_() throws Exception {
 		doThrow(new IllegalStateException("LDAP error")).when(loginController).process(request, response);
-		
+
 		when(request.getServletPath()).thenReturn("/logon.do");
 		when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-		
+
 		controller.doGet(request, response);
-		
+
 		verify(request).getRequestDispatcher(eq("error.jsp"));
 		verify(dispatcher).forward(request, response);
 	}

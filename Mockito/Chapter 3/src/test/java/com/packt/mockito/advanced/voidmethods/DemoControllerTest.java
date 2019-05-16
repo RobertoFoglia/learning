@@ -51,20 +51,17 @@ public class DemoControllerTest {
 	@Before
     public void beforeEveryTest(){
 		// we pass to DemoController the mock objects
-    	controller = new DemoController(loginController,errorHandler, repository);
+    	controller = new DemoController(loginController, errorHandler, repository);
     }
-	
+
 	@Test
 	public void when_subsystem_throws_any_exception_Then_finds_error_message_and_routes_to_error_page_() throws Exception {
+		/** @@@ Working with void method callbacks pag 78 */
 		doThrow(new IllegalStateException("LDAP error")).when(loginController).process(request, response);
-		doAnswer(new Answer<Object>() {
-
-			@Override
-			public Object answer(InvocationOnMock invocation) throws Throwable {
-				Error err = (Error)invocation.getArguments()[0];
-				err.setErrorCode("123");
-				return err;
-			}
+		doAnswer((Answer<Object>) invocation -> {
+			Error err = (Error)invocation.getArguments()[0];
+			err.setErrorCode("123");
+			return err;
 		}).when(errorHandler).mapTo(isA(Error.class));
 		when(request.getServletPath()).thenReturn("/logon.do");
 		when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);

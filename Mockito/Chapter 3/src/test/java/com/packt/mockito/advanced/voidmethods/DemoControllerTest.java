@@ -35,6 +35,7 @@ import org.mockito.stubbing.Answer;
 /**
  * CHAPTER 3
  * @@@ Throwing exception from void methods
+ * @@@ Working with void method callbacks
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DemoControllerTest {
@@ -54,6 +55,11 @@ public class DemoControllerTest {
     	controller = new DemoController(loginController, errorHandler, repository);
     }
 
+	/**
+	 * @@@ Working with void method callbacks
+	 * PAG 78
+	 * @throws Exception
+	 */
 	@Test
 	public void when_subsystem_throws_any_exception_Then_finds_error_message_and_routes_to_error_page_() throws Exception {
 		/** @@@ Working with void method callbacks pag 78 */
@@ -63,6 +69,7 @@ public class DemoControllerTest {
 			err.setErrorCode("123");
 			return err;
 		}).when(errorHandler).mapTo(isA(Error.class));
+
 		when(request.getServletPath()).thenReturn("/logon.do");
 		when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
 		

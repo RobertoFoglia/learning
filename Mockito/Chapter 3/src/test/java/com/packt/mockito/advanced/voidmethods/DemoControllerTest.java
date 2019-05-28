@@ -40,7 +40,7 @@ import org.mockito.stubbing.Answer;
 @RunWith(MockitoJUnitRunner.class)
 public class DemoControllerTest {
 	DemoController controller;
-	
+
 	@Mock HttpServletRequest request;
 	@Mock HttpServletResponse response;
 	@Mock RequestDispatcher dispatcher;
@@ -48,7 +48,7 @@ public class DemoControllerTest {
 	@Mock MessageRepository repository;
 	@Mock ErrorHandler errorHandler;
 	@Mock Service service;
-	
+
 	@Before
     public void beforeEveryTest(){
 		// we pass to DemoController the mock objects
@@ -72,20 +72,21 @@ public class DemoControllerTest {
 
 		when(request.getServletPath()).thenReturn("/logon.do");
 		when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-		
+
 		controller.doGet(request, response);
+		/** @@@ Verifying arguments using ArgumentCaptor pag 81 */
 		ArgumentCaptor<String[]> captor = ArgumentCaptor.forClass(String[].class);
 		verify(this.repository).lookUp(captor.capture());
 		assertEquals("123", captor.getValue());
-		
+
 		verify(request).getRequestDispatcher(eq("error.jsp"));
 		verify(dispatcher).forward(request, response);
 	}
-	
+
 	@Test
 	public void when_capturing_variable_args() throws Exception {
 		String[] errorCodes = {"a","b","c"};
-		
+
 		ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 		repository.lookUp(errorCodes);
 		verify(repository).lookUp(captor.capture(),captor.capture(),captor.capture());
@@ -108,16 +109,17 @@ public class DemoControllerTest {
 		verify(request).getRequestDispatcher(eq("error.jsp"));
 		verify(dispatcher).forward(request, response);
 	}
-	
+
+	/** @@@ doReturn method PAG 80 */
 	@Test
 	public void when_do_return_is_not_safe() throws Exception {
 		when(request.getServletPath()).thenReturn("/logon.do");
 		assertEquals("/logon.do", request.getServletPath());
-		
+
 		doReturn(1.111d).when(request.getServletPath());
 		request.getServletPath();
 	}
-	
+
 	@Test
 	public void when_captures_collections() throws Exception {
 		Class<List<String>> listClass = (Class<List<String>>)(Class)List.class;
@@ -126,18 +128,18 @@ public class DemoControllerTest {
 		verify(service).call(captor.capture());
 		assertTrue(captor.getValue().containsAll(Arrays.asList("a","b")));
 	}
-	
+
 	@Test
 	public void when_inorder() throws Exception {
 		request.getServletPath();
 		service.call(Arrays.asList("a","b"));
-		
+
 		InOrder inOrder=inOrder(request,service);
 		inOrder.verify(request).getServletPath();
 		inOrder.verify(service).call(anyList());
 
 	}
-	
+
 	@Test
 	public void when_spying_real_objects() throws Exception {
 		Error error = new Error();
@@ -145,38 +147,38 @@ public class DemoControllerTest {
 		Error spyError = spy(error);
 		//call real method from  spy
         assertEquals("Q123", spyError.getErrorCode());
-        
+
         //Changing value using spy
         spyError.setErrorCode(null);
-            
+
         //verify spy has the changed value
         assertEquals(null, spyError.getErrorCode());
-        
+
         //Stubbing method
         when(spyError.getErrorCode()).thenReturn("E456");
-        
+
         //Changing value using spy
         spyError.setErrorCode(null);
-        
+
         //Stubbed method value E456 is returned NOT NULL
         assertNotEquals(null, spyError.getErrorCode());
-        
+
         //Stubbed method value E456
         assertEquals("E456", spyError.getErrorCode());
 
 	}
-	
+
 	@Test
 	public void when_doReturn_fails() throws Exception {
 		List<String> list = new ArrayList<String>();
 		List<String> spy = spy(list);
-		
+
 		//doReturn fixed the issue
 		doReturn("now reachable").when(spy).get(0);
 		assertEquals("now reachable", spy.get(0));
 	}
-	
-	
+
+
 }
 
 interface Service{

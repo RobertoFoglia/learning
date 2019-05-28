@@ -83,6 +83,7 @@ public class DemoControllerTest {
 		verify(dispatcher).forward(request, response);
 	}
 
+	/** @@@ Working with variable arguments and arrays pag 83 */
 	@Test
 	public void when_capturing_variable_args() throws Exception {
 		String[] errorCodes = {"a","b","c"};
@@ -91,6 +92,8 @@ public class DemoControllerTest {
 		repository.lookUp(errorCodes);
 		verify(repository).lookUp(captor.capture(),captor.capture(),captor.capture());
 		assertTrue(captor.getAllValues().containsAll(Arrays.asList(errorCodes)));
+
+//		verify(repository).lookUp(captor.captureVararg) in the another version
 	}
 
 	/**
@@ -120,6 +123,7 @@ public class DemoControllerTest {
 		request.getServletPath();
 	}
 
+	/** @@@ Working with generic collection arguments pag 82  */
 	@Test
 	public void when_captures_collections() throws Exception {
 		Class<List<String>> listClass = (Class<List<String>>)(Class)List.class;

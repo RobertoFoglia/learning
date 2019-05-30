@@ -133,6 +133,7 @@ public class DemoControllerTest {
 		assertTrue(captor.getValue().containsAll(Arrays.asList("a","b")));
 	}
 
+	/** @@@ Verifying an invocation order PAG 84 */
 	@Test
 	public void when_inorder() throws Exception {
 		request.getServletPath();

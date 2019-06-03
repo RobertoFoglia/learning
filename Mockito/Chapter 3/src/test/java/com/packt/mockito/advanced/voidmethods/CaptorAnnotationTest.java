@@ -12,7 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
+/** @@@ Exploring mockito annotations pag 87 */
 @RunWith(MockitoJUnitRunner.class)
 public class CaptorAnnotationTest {
 

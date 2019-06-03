@@ -145,6 +145,8 @@ public class DemoControllerTest {
 
 	}
 
+
+	/** @@@ Spying object pag 85 */
 	@Test
 	public void when_spying_real_objects() throws Exception {
 		Error error = new Error();

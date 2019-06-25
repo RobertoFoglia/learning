@@ -8,6 +8,14 @@
   <artifactId>rfoglia.modern.java.in.action.3</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <dependencies>
+    <dependency>
+      <groupId>rfoglia.modern.java.in.action</groupId>
+      <artifactId>rfoglia.modern.java.in.action.2</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>

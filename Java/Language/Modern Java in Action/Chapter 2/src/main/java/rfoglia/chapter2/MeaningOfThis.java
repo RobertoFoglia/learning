@@ -1,4 +1,4 @@
-package rfoglia;
+package rfoglia.chapter2;
 
 public class MeaningOfThis {
 

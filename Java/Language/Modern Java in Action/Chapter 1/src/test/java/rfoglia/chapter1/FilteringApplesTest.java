@@ -1,13 +1,10 @@
 package rfoglia.chapter1;
 
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import rfoglia.chapter1.Apple;
-import rfoglia.chapter1.FilteringApples;
-
-import java.util.Arrays;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FilteringApplesTest {

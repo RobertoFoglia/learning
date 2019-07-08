@@ -6,6 +6,9 @@ import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * @@@ Building streams
+ */
 public class BuildingStreams {
 
   public static void main(String... args) throws Exception {

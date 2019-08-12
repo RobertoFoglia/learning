@@ -29,6 +29,15 @@ public class Mapping{
         .distinct()
         .forEach(System.out::println);
 
+    //  ==
+
+    words.stream()
+      .map(word -> word.split(""))
+      .flatMap(Arrays::stream)
+      .distinct()
+      .forEach(System.out::println);
+
+
     // flatMap
     List<Integer> numbers1 = Arrays.asList(1,2,3,4,5);
     List<Integer> numbers2 = Arrays.asList(6,7,8);

@@ -19,6 +19,7 @@ public class SpringContextTest {
   @Test
   public void test() {
     // https://stackoverflow.com/questions/57529937/spring-java-injected-singleton-into-prototype-bean
+    // @@@ Spring dependencies injections
     System.out.println("The first call - @Autowired");
     myPrototype.callMySingleton();
 

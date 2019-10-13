@@ -2,9 +2,9 @@ package com.xantrix.webapp.controller;
 
 import com.xantrix.webapp.entity.Articolo;
 import com.xantrix.webapp.entity.Barcode;
+import com.xantrix.webapp.exception.NotFoundException;
 import com.xantrix.webapp.service.ArticoliService;
 import com.xantrix.webapp.service.BarcodeService;
-import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,9 @@ public class ArticoliController {
 
         Barcode barcodeObjcet = barcodeService.selByBarcode(barcode);
         if (barcodeObjcet == null) {
-            LOGGER.warn("Il barcode " + barcode + " non è stato trovato!");
-            return new ResponseEntity<Articolo>(HttpStatus.NOT_FOUND);
+            String errorMessage = "Il barcode " + barcode + " non è stato trovato!";
+            LOGGER.warn(errorMessage);
+            throw new NotFoundException(errorMessage);
         }
 
         return new ResponseEntity<Articolo>(barcodeObjcet.getArticolo(), HttpStatus.OK);

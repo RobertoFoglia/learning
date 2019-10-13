@@ -2,6 +2,8 @@ package com.xantrix.webapp.service;
 
 import com.xantrix.webapp.entity.Articolo;
 import com.xantrix.webapp.repository.ArticoliRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,13 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Lazy
 @Transactional(readOnly = true)
 public class ArticoliServiceImpl implements ArticoliService {
-    private final ArticoliRepository articoliRepository;
-
-    public ArticoliServiceImpl(ArticoliRepository articoliRepository) {
-        this.articoliRepository = articoliRepository;
-    }
+    @Autowired
+    @Lazy
+    private ArticoliRepository articoliRepository;
 
     @Override
     public Iterable<Articolo> selTutti() {

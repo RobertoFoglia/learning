@@ -3,7 +3,7 @@ package com.xantrix.webapp.UnitTest.RepositoryTests;
 import static org.assertj.core.api.Assertions.assertThat;
  
 import com.xantrix.webapp.Application;
-import com.xantrix.webapp.entities.Barcode;
+import com.xantrix.webapp.entity.Barcode;
 import com.xantrix.webapp.repository.BarcodeRepository;
 
 import org.junit.Test;
@@ -20,7 +20,6 @@ public class BarcodeRepositoryTest
 {
 	@Autowired
 	private BarcodeRepository barcodeRepository;
-	
 	
 	@Test
 	public void TestfindByBarcode()

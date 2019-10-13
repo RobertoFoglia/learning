@@ -20,7 +20,7 @@ public class BarcodeRepositoryTest
 {
 	@Autowired
 	private BarcodeRepository barcodeRepository;
-	
+
 	@Test
 	public void TestfindByBarcode()
 	{

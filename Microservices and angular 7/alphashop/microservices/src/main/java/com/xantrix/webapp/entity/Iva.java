@@ -30,5 +30,5 @@ public class Iva {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "iva")
     @JsonBackReference
-    private Set<Articoli> articoli = new HashSet<>();
+    private Set<Articolo> articoli = new HashSet<>();
 }

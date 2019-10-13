@@ -62,7 +62,7 @@ private MockMvc mockMvc;
 			"        \"id\": 1,\n" + 
 			"        \"descrizione\": \"DROGHERIA ALIMENTARE\"\n" + 
 			"    },\n" + 
-			"    \"ingredienti\": null,\n" + 
+			"    \"ingrediente\": null,\n" +
 			"    \"iva\": {\n" + 
 			"        \"idIva\": 22,\n" + 
 			"        \"descrizione\": \"IVA RIVENDITA 22%\",\n" + 
@@ -83,7 +83,7 @@ private MockMvc mockMvc;
 				.andExpect(jsonPath("$.descrizione").exists())
 				.andExpect(jsonPath("$.descrizione").value("ACQUA ULIVETO 15 LT"))
 				.andExpect(jsonPath("$.um").exists())
-				.andExpect(jsonPath("$.um").value("PZ"))
+				.andExpect(jsonPath("$.um").value("PZ  "))
 				.andExpect(jsonPath("$.codStat").exists())
 				.andExpect(jsonPath("$.codStat").value(""))
 				.andExpect(jsonPath("$.pzCart").exists())
@@ -104,8 +104,8 @@ private MockMvc mockMvc;
 				.andExpect(jsonPath("$.famAssort.id").value("1")) 
 				.andExpect(jsonPath("$.famAssort.descrizione").exists())
 				.andExpect(jsonPath("$.famAssort.descrizione").value("DROGHERIA ALIMENTARE")) 
-				 //ingredienti
-				.andExpect(jsonPath("$.ingredienti").isEmpty())
+				 //ingrediente
+				.andExpect(jsonPath("$.ingrediente").isEmpty())
 				 //Iva
 				.andExpect(jsonPath("$.iva.idIva").exists())
 				.andExpect(jsonPath("$.iva.idIva").value("22")) 

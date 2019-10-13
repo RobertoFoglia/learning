@@ -2,7 +2,7 @@ package com.xantrix.webapp.UnitTest.RepositoryTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import com.xantrix.webapp.Application;
-import com.xantrix.webapp.entity.Articoli;
+import com.xantrix.webapp.entity.Articolo;
 import com.xantrix.webapp.repository.ArticoliRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,26 +21,26 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(classes = Application.class)
 @SpringBootTest
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ArticoliRepositoryTest {
+public class ArticoloRepositoryTest {
     @Autowired
     private ArticoliRepository articoliRepository;
 
     @Test
     public void TestfindByDescrizioneLike() {
-        List<Articoli> items = articoliRepository.SelByDescrizioneLike("ACQUA ULIVETO%");
+        List<Articolo> items = articoliRepository.selByDescrizioneLike("ACQUA ULIVETO%");
         assertEquals(2, items.size());
     }
 
     @Test
     public void TestfindByDescrizioneLikePage() {
-        List<Articoli> items = articoliRepository.findByDescrizioneLike("ACQUA%", PageRequest.of(0, 10));
+        List<Articolo> items = articoliRepository.findByDescrizioneLike("ACQUA%", PageRequest.of(0, 10));
         assertEquals(10, items.size());
     }
 
     @Test
     public void TestfindByCodArt() throws Exception {
         assertThat(articoliRepository.findByCodArt("002000301"))
-                .extracting(Articoli::getDescrizione)
+                .extracting(Articolo::getDescrizione)
                 .isEqualTo("ACQUA ULIVETO 15 LT");
 
     }

@@ -29,5 +29,5 @@ public class Barcode implements Serializable {
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "CODART", referencedColumnName = "codArt")
     @JsonBackReference
-    private Articoli articolo;
+    private Articolo articolo;
 }

@@ -27,5 +27,5 @@ public class FamAssort {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "famAssort")
     @JsonBackReference
-    private Set<Articoli> articoli = new HashSet<>();
+    private Set<Articolo> articoli = new HashSet<>();
 }

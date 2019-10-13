@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "INGREDIENTI")
 @Data
-public class Ingredienti implements Serializable {
+public class Ingrediente implements Serializable {
     private static final long serialVersionUID = -6597932485001138522L;
 
     @Id
@@ -22,5 +22,5 @@ public class Ingredienti implements Serializable {
     @OneToOne
     @PrimaryKeyJoinColumn
     @JsonBackReference
-    private Articoli articolo;
+    private Articolo articolo;
 }

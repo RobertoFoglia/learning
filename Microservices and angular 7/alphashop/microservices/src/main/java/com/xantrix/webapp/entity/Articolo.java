@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "ARTICOLI")
 @Data
-public class Articoli implements Serializable {
+public class Articolo implements Serializable {
     private static final long serialVersionUID = 5367024664545455706L;
 
     @Id
@@ -47,7 +47,7 @@ public class Articoli implements Serializable {
 
     @OneToOne(mappedBy = "articolo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Ingredienti ingredienti;
+    private Ingrediente ingrediente;
 
     @ManyToOne
     @JoinColumn(name = "IDIVA", referencedColumnName = "idIva")

@@ -127,7 +127,7 @@ public class ArticoliController {
 
         articoliService.insArticolo(articolo);
 
-        return new ResponseEntity<Articolo>(new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<Articolo>(new HttpHeaders(), HttpStatus.OK);
     }
 
     // ------------------- ELIMINAZIONE ARTICOLO ------------------------------------

@@ -1,5 +1,7 @@
 package com.xantrix.webapp.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.xantrix.webapp.entity.Articolo;
 import com.xantrix.webapp.entity.Barcode;
 import com.xantrix.webapp.exception.BindingException;
@@ -104,6 +106,52 @@ public class ArticoliController {
         articoliService.insArticolo(articolo);
 
         return new ResponseEntity<Articolo>(new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    // ------------------- MODIFICA ARTICOLO ------------------------------------
+    @RequestMapping(value = "/modifica", method = RequestMethod.PUT)
+    public ResponseEntity<Articolo> updateArt(@Valid @RequestBody Articolo articolo, BindingResult bindingResult)
+            throws BindingException, NotFoundException {
+        logger.info("Modifichiamo l'articolo con codice " + articolo.getCodArt());
+
+        if (bindingResult.hasErrors()) {
+            String MsgErr = errMessage.getMessage(bindingResult.getFieldError(), LocaleContextHolder.getLocale());
+            logger.warn(MsgErr);
+            throw new BindingException(MsgErr);
+        }
+
+        Articolo checkArt = articoliService.selByCodArt(articolo.getCodArt());
+
+        if (checkArt == null)
+            throwNotFoundException("Articolo" + articolo.getCodArt() + "non presente in anagrafica! Impossibile utilizzare il metodo PUT");
+
+        articoliService.insArticolo(articolo);
+
+        return new ResponseEntity<Articolo>(new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    // ------------------- ELIMINAZIONE ARTICOLO ------------------------------------
+    @RequestMapping(value = "/elimina/{codart}", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity<?> deleteArt(@PathVariable("codart") String codArt)
+            throws NotFoundException {
+        logger.info("Eliminiamo l'articolo con codice " + codArt);
+
+        Articolo articolo = articoliService.selByCodArt(codArt);
+
+        if (articolo == null)
+            throwNotFoundException("Articolo " + codArt + "non presente in anagrafica!");
+
+        articoliService.delArticolo(articolo);
+
+        /// @@@ custom response
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode responseNode = mapper.createObjectNode();
+
+        responseNode.put("code", HttpStatus.OK.toString());
+        responseNode.put("message", "Eliminazione Articolo " + codArt + " Eseguita Con Successo");
+
+        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
+
     }
 
     private ResponseEntity<Articolo> throwNotFoundException(String errorMessage) throws NotFoundException {

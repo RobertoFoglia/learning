@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,9 +21,12 @@ public class Articolo implements Serializable {
 
     @Id
     @Column(name = "CODART")
+    @Size(min = 5, max = 20, message = "{Size.Articoli.codArt.Validation}")
+    @NotNull(message = "{NotNull.Articoli.codArt.Validation}")
     private String codArt;
 
     @Column(name = "DESCRIZIONE")
+    @Size(min = 6, max = 80, message = "{Size.Articoli.descrizione.Validation}")
     private String descrizione;
 
     @Column(name = "UM")
@@ -29,9 +36,11 @@ public class Articolo implements Serializable {
     private String codStat;
 
     @Column(name = "PZCART")
+    @Max(value = 99, message = "{Max.Articoli.pzCart.Validation}")
     private Integer pzCart;
 
     @Column(name = "PESONETTO")
+    @Min(value = (long) 0.01, message = "{Min.Articoli.pesoNetto.Validation}")
     private double pesoNetto;
 
     @Column(name = "IDSTATOART")

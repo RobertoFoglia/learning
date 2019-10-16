@@ -1,17 +1,18 @@
 package com.xantrix.webapp.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /*
+    // @@@ hard-coding users
+    // it is replaced with CustomUserDetailService
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
@@ -39,21 +43,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // @@@ 	User and roles creation
         manager.createUser(
                 users
-                        .username("Nicola")
+                        .userId("Nicola")
                         .password(new BCryptPasswordEncoder().encode("123Stella"))
                         .roles("USER")
                         .build());
 
         manager.createUser(
                 users
-                        .username("Admin")
+                        .userId("Admin")
                         .password(new BCryptPasswordEncoder().encode("VerySecretPwd"))
                         .roles("USER", "ADMIN")
                         .build());
 
         return manager;
     }
-
+*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // csrf configure the protection from a hacker attach, but in the service is not necessary
@@ -67,6 +71,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder,
+                                @Qualifier("customUserDetailsService") UserDetailsService userDetailsService) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Bean

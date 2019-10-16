@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-// @@@ Manages the error message if the username and password are wrong
+// @@@ Manages the error message if the userId and password are wrong
 public class AuthEntryPoint extends BasicAuthenticationEntryPoint {
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPoint.class);
 

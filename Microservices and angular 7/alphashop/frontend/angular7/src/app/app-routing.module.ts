@@ -8,8 +8,9 @@ import { ErrorUrlComponent } from './error-url/error-url.component';
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'welcome', component: WelcomeComponent },
-  { path: '**', component: ErrorUrlComponent} // page not found
+  // the userid is mandatory
+  { path: 'welcome/:userid', component: WelcomeComponent }, // @@@   routing parameters
+  { path: '**', component: ErrorUrlComponent} // @@@ pages not found
 ];
 
 @NgModule({

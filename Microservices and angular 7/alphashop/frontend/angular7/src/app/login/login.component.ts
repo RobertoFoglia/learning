@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   connectIsClicked = false;
   errorMsg = 'Spiacente, la userid o la password sono errati';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
     this.connectIsClicked = true;
     if (this.userid === 'Roberto' && this.password === '123') {
       this.autenticato = true;
+      this.router.navigate(['welcome', this.userid]);
     } else {
       this.autenticato = false;
     }

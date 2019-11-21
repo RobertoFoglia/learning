@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class WelcomeComponent implements OnInit {
 
   messaggio = 'Saluti sonon il componente welcome';
-
+  saluti = 'Benvenuti nel sito Alphashop';
+  titolo2 = 'Seleziona gli articoli da acquistare';
   constructor() { }
 
   ngOnInit() {

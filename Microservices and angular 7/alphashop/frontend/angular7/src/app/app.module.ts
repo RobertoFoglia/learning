@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ErrorUrlComponent } from './error-url/error-url.component';
 import { ArticoliComponent } from './articoli/articoli.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ArticoliComponent } from './articoli/articoli.component';
     WelcomeComponent,
     LoginComponent,
     ErrorUrlComponent,
-    ArticoliComponent
+    ArticoliComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

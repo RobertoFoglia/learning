@@ -7,13 +7,15 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ErrorUrlComponent } from './error-url/error-url.component';
+import { ArticoliComponent } from './articoli/articoli.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
     LoginComponent,
-    ErrorUrlComponent
+    ErrorUrlComponent,
+    ArticoliComponent
   ],
   imports: [
     BrowserModule,

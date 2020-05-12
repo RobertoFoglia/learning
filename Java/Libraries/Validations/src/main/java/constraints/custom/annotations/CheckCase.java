@@ -10,16 +10,12 @@ import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE_USE;
+import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD, METHOD, PARAMETER, ANNOTATION_TYPE, TYPE_USE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = CheckCaseValidator.class)
+@Constraint(validatedBy = CheckCaseValidator.class)  // here it is defined the validator class
 @Documented
 @Repeatable(CheckCase.List.class)
 public @interface CheckCase {
@@ -27,7 +23,7 @@ public @interface CheckCase {
      * an attribute message that returns the default key for
      * creating error messages in case the constraint is violated
      */
-    String message() default "{constraints.custom.annotations.CheckCase.message}";
+    String message() default "{constraints.custom.annotations.CheckCase.message}"; // ValidationMessages.properties
 
     /**
      * an attribute groups that allows the specification of validation groups, to which this constraint belongs

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 https://maven.apache.org/xsd/settings-1.1.0.xsd"
+          xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <profiles>
+        <profile>
+            <id>developer</id>
+            <repositories>
+                
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>mvnrepository</id>
+                    <name>mvnrepository</name>
+                    <url>https://mvnrepository.com/artifact/</url>
+                </repository>
+                
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>repo.spring.io</id>
+                    <name>repo.spring.io</name>
+                    <url>http://repo.spring.io/plugins-release/</url>
+                </repository>
+                
+            </repositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>developer</activeProfile>
+    </activeProfiles>
+</settings>
+

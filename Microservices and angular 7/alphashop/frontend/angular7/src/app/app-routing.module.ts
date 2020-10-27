@@ -2,17 +2,20 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { ErrorUrlComponent } from './error-url/error-url.component';
+import { ErrorComponent } from './error/error.component';
 import { ArticoliComponent } from './articoli/articoli.component';
-
+import { LogoutComponent } from './logout/logout.component';
+import { RouteGuardService } from './services/route-guard.service';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent},
-  { path: 'login', component: LoginComponent },
-  // the userid is mandatory
-  { path: 'welcome/:userid', component: WelcomeComponent }, // @@@   routing parameters
-  { path: 'articoli', component: ArticoliComponent},
-  { path: '**', component: ErrorUrlComponent} // @@@ pages not found
+  {path:'', component : LoginComponent},
+  {path:'index', component : LoginComponent},
+  {path:'login', component : LoginComponent},
+  {path:'welcome/:userid', component : WelcomeComponent, canActivate:[RouteGuardService]},
+  {path:'articoli', component : ArticoliComponent, canActivate:[RouteGuardService]},
+  {path:'articoli/:filter', component : ArticoliComponent, canActivate:[RouteGuardService]},
+  {path:'logout', component : LogoutComponent},
+  {path:'**', component : ErrorComponent}
 ];
 
 @NgModule({

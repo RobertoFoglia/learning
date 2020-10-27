@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SalutiDataService } from '../services/data/saluti-data.service';
 
 @Component({
   selector: 'app-welcome',
@@ -8,22 +9,42 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
 
-  messaggio = 'Saluti sonon il componente welcome';
-  saluti = 'Benvenuti nel sito Alphashop';
-  titolo2 = 'Seleziona gli articoli da acquistare';
+  //messaggio = 'Saluti sono il componente welcome'
 
-  utente = '';
+  saluti = 'Benvenuti nel sito Alphashop'
+  titolo2 = 'Seleziona gli articoli da acquistare'
 
-  // @@@ routing parameters
-  constructor(private activatedRoute: ActivatedRoute) {
+  utente = ''
+  messaggio = ''
 
-   }
+  constructor(private route:ActivatedRoute, private salutiSrv:SalutiDataService ) { }
 
   ngOnInit() {
-    // this is called before the component is startedng
-    console.log(this.messaggio);
-    // the parameters is in the URL
-    this.utente = this.activatedRoute.snapshot.params['userid'];
+
+    this.utente = this.route.snapshot.params['userid']
+     
+   // console.log(this.messaggio);
+    
   }
+
+  getSaluti() {
+    console.log(this.salutiSrv.getSaluti(this.utente));
+
+    this.salutiSrv.getSaluti(this.utente).subscribe(
+      response => this.handleResponse(response),
+      error => this.handleError(error)
+      
+    );
+  }
+
+  handleResponse(response) {
+    this.messaggio = response;
+    console.log(response);
+  }
+
+  handleError(error) {
+    this.messaggio = error.error.message;
+  }
+
 
 }

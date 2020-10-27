@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { WelcomeComponent } from '../welcome/welcome.component';
+import { AuthappService } from '../services/authapp.service';
 
 @Component({
   selector: 'app-login',
@@ -7,26 +9,43 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  userid = '';
-  password = '';
-  autenticato = false;
-  connectIsClicked = false;
-  errorMsg = 'Spiacente, la userid o la password sono errati';
 
-  constructor(private router: Router) { }
+  userid = ''
+  password = ''
+  autenticato = true
+  //consentito = false
+  errorMsg = 'Spiacente, la userid o la password sono errati!'
+  //infoMsg = 'Accesso Consentito'
+
+  constructor(private route : Router, private BasicAuth: AuthappService ) { }
 
   ngOnInit() {
   }
 
-  authenticationManagement() {
-    console.log('userid = ' + this.userid);
-    console.log('password = ' + this.password);
-    this.connectIsClicked = true;
-    if (this.userid === 'Roberto' && this.password === '123') {
-      this.autenticato = true;
-      this.router.navigate(['welcome', this.userid]);
-    } else {
-      this.autenticato = false;
+  gestAut() {
+
+    if (this.BasicAuth.autentica(this.userid, this.password))
+    {
+        this.autenticato = true;
+        this.route.navigate(['welcome', this.userid]);
     }
+    else
+    {
+        this.autenticato = false;
+    }
+  
+    /*
+    if (this.userid === 'Nicola' && this.password === '123_Stella') {
+        this.autenticato = true;
+        this.route.navigate(['welcome', this.userid])
+        //this.consentito = true;
+    }
+    else {
+        this.autenticato = false;
+        //this.consentito = false;
+    }
+    */
+    
   }
+
 }

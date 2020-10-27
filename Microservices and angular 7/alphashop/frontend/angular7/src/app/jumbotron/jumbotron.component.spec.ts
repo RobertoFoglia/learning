@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ErrorUrlComponent } from './error-url.component';
+import { JumbotronComponent } from './jumbotron.component';
 
-describe('ErrorUrlComponent', () => {
-  let component: ErrorUrlComponent;
-  let fixture: ComponentFixture<ErrorUrlComponent>;
+describe('JumbotronComponent', () => {
+  let component: JumbotronComponent;
+  let fixture: ComponentFixture<JumbotronComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ErrorUrlComponent ]
+      declarations: [ JumbotronComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ErrorUrlComponent);
+    fixture = TestBed.createComponent(JumbotronComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

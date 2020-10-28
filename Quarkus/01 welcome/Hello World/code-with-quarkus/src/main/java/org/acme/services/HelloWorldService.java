@@ -9,6 +9,4 @@ import javax.enterprise.context.ApplicationScoped;
 public interface HelloWorldService {
     //    default String greeting() { return "hello"; } // - the wrong using
     String greeting();
-
-    String greeting2();
 }

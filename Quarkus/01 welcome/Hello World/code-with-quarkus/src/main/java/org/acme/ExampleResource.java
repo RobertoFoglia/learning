@@ -33,6 +33,6 @@ public class ExampleResource {
     @Audited
     @Produces(MediaType.TEXT_PLAIN)
     public String hello2() {
-        return helloWorldService2.greeting2();
+        return helloWorldService2.greeting();
     }
 }

@@ -1,5 +1,6 @@
 package org.acme;
 
+import org.acme.interceptors.Audited;
 import org.acme.services.HelloWorldService;
 
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ public class ExampleResource {
     private HelloWorldService helloWorldService2;
 
     @GET
+    @Audited
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
         return helloWorldService.greeting();
@@ -28,6 +30,7 @@ public class ExampleResource {
 
     @GET
     @Path("/2")
+    @Audited
     @Produces(MediaType.TEXT_PLAIN)
     public String hello2() {
         return helloWorldService2.greeting2();

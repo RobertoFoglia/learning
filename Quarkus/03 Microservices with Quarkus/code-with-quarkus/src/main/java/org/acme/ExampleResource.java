@@ -3,9 +3,11 @@ package org.acme;
 import org.acme.interceptors.Audited;
 import org.acme.services.HelloWorldService;
 
+import javax.ejb.PostActivate;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -40,5 +42,11 @@ public class ExampleResource {
     @Path("/exceptions/handler")
     public String exceptionHandler() {
         return helloWorldService2.greetingWithAnException();
+    }
+
+    @POST
+    @Path("/readerInterceptor")
+    public String passString(String body) {
+        return body;
     }
 }

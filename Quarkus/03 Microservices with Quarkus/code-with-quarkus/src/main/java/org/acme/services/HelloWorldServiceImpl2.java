@@ -28,4 +28,10 @@ public class HelloWorldServiceImpl2 implements HelloWorldService {
     public String greeting() {
         return "instantation counter " + instantationCounter;
     }
+
+    /* @@@ JAX-RS Exception handling */
+    @Override
+    public String greetingWithAnException() {
+        throw new IllegalArgumentException("test of the exception hanlder");
+    }
 }

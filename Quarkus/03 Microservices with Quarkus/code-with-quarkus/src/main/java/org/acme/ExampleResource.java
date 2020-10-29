@@ -35,4 +35,10 @@ public class ExampleResource {
     public String hello2() {
         return helloWorldService2.greeting();
     }
+
+    @GET
+    @Path("/exceptions/handler")
+    public String exceptionHandler() {
+        return helloWorldService2.greetingWithAnException();
+    }
 }

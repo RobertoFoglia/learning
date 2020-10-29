@@ -14,4 +14,9 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public String greeting() {
         return "hello";
     }
+
+    @Override
+    public String greetingWithAnException() {
+        return null;
+    }
 }

@@ -3,7 +3,6 @@ package org.acme;
 import org.acme.interceptors.Audited;
 import org.acme.services.HelloWorldService;
 
-import javax.ejb.PostActivate;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;

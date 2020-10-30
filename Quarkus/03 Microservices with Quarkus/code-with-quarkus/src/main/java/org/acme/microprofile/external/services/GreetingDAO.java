@@ -1,5 +1,6 @@
 package org.acme.microprofile.external.services;
 
+import org.acme.exceptions.handlers.GreetingDAOExceptionHandler;
 import org.acme.filters.LoggingFilter;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
@@ -13,6 +14,7 @@ import java.util.concurrent.CompletionStage;
 /* @@@ MicroProfile - REST CLIENT */
 @RegisterRestClient(baseUri = "http://localhost:8080/")
 @RegisterProvider(LoggingFilter.class)
+@RegisterProvider(GreetingDAOExceptionHandler.class)
 public interface GreetingDAO {
     @GET
     @Path("/hello")

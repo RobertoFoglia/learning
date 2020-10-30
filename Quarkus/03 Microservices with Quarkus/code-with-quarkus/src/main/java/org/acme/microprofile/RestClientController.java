@@ -62,4 +62,10 @@ public class RestClientController {
         log.info("end of the rest method - Executing in a different thread");
         return completionStageResponse;
     }
+
+    @GET
+    @Path("/inexistent-path")
+    public String inexistentPath() {
+        return greetingDAO.inexistentPath();
+    }
 }

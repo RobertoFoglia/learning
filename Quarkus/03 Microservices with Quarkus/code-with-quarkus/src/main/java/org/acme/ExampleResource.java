@@ -16,11 +16,11 @@ public class ExampleResource {
 
     @Inject
     @Named("default")
-    private HelloWorldService helloWorldService;
+    HelloWorldService helloWorldService;
 
     @Inject
     @Named("helloWorldWithRequestScope")
-    private HelloWorldService helloWorldService2;
+    HelloWorldService helloWorldService2;
 
     @GET
     @Audited

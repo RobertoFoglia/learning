@@ -13,6 +13,8 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @Path("asyncAPIHello")
 @Slf4j
@@ -33,9 +35,28 @@ public class AsynchronousRESTAPIController {
             log.info("Executing in a different thread");
 
             async.resume(
-                    Response.ok(helloWorldService.greeting())
+                    Response.ok(" Async -" + helloWorldService.greeting())
                     .type(MediaType.APPLICATION_JSON_TYPE)
                     .build());
         });
+        log.info("end of the rest method - Executing in a different thread");
+    }
+
+    /* @@@ RX api - different thread pag 76 */
+    @Path("/rx")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public CompletionStage<Response> helloInRXWay() {
+        final CompletionStage<Response>
+                completionStageResponse = new CompletableFuture<>();
+        managedExecutor.submit(() -> {
+            log.info("RX - Executing in different thread");
+            final Response response = Response.ok(" RX - " + helloWorldService.greeting())
+                    .type(MediaType.APPLICATION_JSON).
+                            build();
+            completionStageResponse.toCompletableFuture().complete(response);
+        });
+        log.info("end of the rest method - Executing in a different thread");
+        return completionStageResponse;
     }
 }

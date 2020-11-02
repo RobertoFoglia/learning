@@ -1,5 +1,6 @@
 package org.acme;
 
+import io.smallrye.mutiny.Uni;
 import lombok.extern.slf4j.Slf4j;
 import org.acme.services.HelloWorldService;
 import org.eclipse.microprofile.context.ManagedExecutor;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
@@ -97,5 +99,13 @@ public class AsynchronousRESTAPIController {
         });
         log.info("end of the rest method - Executing in a different thread");
         return completionStageResponse;
+    }
+
+    @GET
+    @Path("/{name:[a-zA-Z]*}/scramble-mutiny")
+    public Uni<Response> getMutinyAnagram(final @PathParam("name") String name) {
+        return  Uni.createFrom().item(name).onItem().
+                transform(toScramble -> Response.ok(name).
+                            type(MediaType.APPLICATION_JSON).build());
     }
 }

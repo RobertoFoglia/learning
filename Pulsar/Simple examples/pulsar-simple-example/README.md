@@ -7,6 +7,9 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 # Pulsar
 Here we use a Java Client and we make an example with the instruction on the [Pulsar docs](https://pulsar.apache.org/docs/en/client-libraries-java/)
 
+To start it
+sudo docker run -it   -p 6650:6650   -p 8081:8080   --mount source=pulsardata,target=/pulsar/data   --mount source=pulsarconf,target=/pulsar/conf   apachepulsar/pulsar:2.6.1  bin/pulsar standalone
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:

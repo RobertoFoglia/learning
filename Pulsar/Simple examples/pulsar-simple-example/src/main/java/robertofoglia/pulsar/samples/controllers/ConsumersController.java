@@ -22,4 +22,11 @@ public class ConsumersController {
     public CompletionStage<String> receive() {
         return consumer.receive();
     }
+
+    @Path("/read")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public CompletionStage<String> read() {
+        return consumer.read();
+    }
 }

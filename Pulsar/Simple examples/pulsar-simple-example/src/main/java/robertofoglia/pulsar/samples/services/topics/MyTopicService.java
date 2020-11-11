@@ -1,6 +1,5 @@
 package robertofoglia.pulsar.samples.services.topics;
 
-import io.quarkus.arc.DefaultBean;
 import org.apache.pulsar.client.api.*;
 import robertofoglia.pulsar.samples.services.topics.api.MyTopicConsumer;
 import robertofoglia.pulsar.samples.services.topics.api.MyTopicProducer;
@@ -18,6 +17,9 @@ public class MyTopicService implements MyTopicProducer, MyTopicConsumer {
     private Consumer<byte[]> consumer;
 
     private static int count = 0;
+    private ReaderBuilder<byte[]> readerBuilder;
+    private Reader<byte[]> reader;
+    private boolean isReaderSetOnTheFirstMessageSinceStartup = false;
 
     @ApplicationScoped
     @Produces
@@ -36,24 +38,35 @@ public class MyTopicService implements MyTopicProducer, MyTopicConsumer {
                 .subscriptionName("my-subscription")
                 .ackTimeout(10, TimeUnit.SECONDS)
                 .subscribe();
+
+        readerBuilder = client.newReader().topic(topicName).startMessageId(MessageId.earliest);
+        reader = readerBuilder.create();
         return this;
     }
 
     @Override
     public <R> CompletableFuture<R> send(String message, Function<MessageId, R> onComplete) {
-        String s = message + ++count;
+        String s = message + " " + ++count;
         return producer.sendAsync(s.getBytes())
                 .thenApply(messageId -> {
                     System.out.println(s);
+                    if (!isReaderSetOnTheFirstMessageSinceStartup) {
+                        readerBuilder.startMessageId(messageId).createAsync()
+                                .thenAccept(reader1 -> reader = reader1)
+                                .exceptionally(throwable -> {
+                                    throwable.printStackTrace();
+                                    return Void.TYPE.cast(throwable);
+                                });
+                        isReaderSetOnTheFirstMessageSinceStartup = true;
+                    }
                     return messageId;
-                })
-                .thenApply(onComplete);
+                }).thenApply(onComplete);
     }
 
     @Override
     public CompletableFuture<String> receive() {
         CompletableFuture<String> resultFuture = new CompletableFuture<>();
-        consumer.receiveAsync()
+        consumer.receiveAsync().orTimeout(10, TimeUnit.SECONDS)
                 .thenAcceptAsync(
                         message -> {
                             try {
@@ -66,5 +79,10 @@ public class MyTopicService implements MyTopicProducer, MyTopicConsumer {
                         }
                 );
         return resultFuture;
+    }
+
+    @Override
+    public CompletableFuture<String> read() {
+        return reader.readNextAsync().orTimeout(10, TimeUnit.SECONDS).thenApply(message -> new String(message.getData()));
     }
 }

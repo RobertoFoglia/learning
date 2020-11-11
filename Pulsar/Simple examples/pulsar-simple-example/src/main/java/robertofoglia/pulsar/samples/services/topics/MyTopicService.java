@@ -71,11 +71,12 @@ public class MyTopicService implements MyTopicProducer, MyTopicConsumer {
                         message -> {
                             try {
                                 // message elaboration (Pulsar wants the ack after elaboration)
+                                System.out.println(new String(message.getValue()));
                                 consumer.acknowledge(message);
                             } catch (PulsarClientException e) {
                                 resultFuture.completeExceptionally(e);
                             }
-                            resultFuture.complete(new String(message.getData()));
+                            resultFuture.complete(new String(message.getValue()));
                         }
                 );
         return resultFuture;
@@ -85,4 +86,6 @@ public class MyTopicService implements MyTopicProducer, MyTopicConsumer {
     public CompletableFuture<String> read() {
         return reader.readNextAsync().orTimeout(10, TimeUnit.SECONDS).thenApply(message -> new String(message.getData()));
     }
+
+
 }

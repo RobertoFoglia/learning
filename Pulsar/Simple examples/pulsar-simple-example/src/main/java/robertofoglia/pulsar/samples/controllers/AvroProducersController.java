@@ -1,6 +1,8 @@
 package robertofoglia.pulsar.samples.controllers;
 
-import robertofoglia.pulsar.samples.services.topics.api.MyTopicProducer;
+import org.apache.pulsar.client.api.MessageId;
+import robertofoglia.pulsar.samples.controllers.dtos.MessageDTO;
+import robertofoglia.pulsar.samples.services.topics.api.MyAvroTopicProducer;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -8,11 +10,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.CompletionStage;
 
-@Path("/my-topic/producers")
-public class ProducersController {
+@Path("/my-avro-topic/producers")
+public class AvroProducersController {
     @Inject
-    @Named("MyTopicService")
-    MyTopicProducer producer;
+    @Named("MyAvroTopicService")
+    MyAvroTopicProducer producer;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -22,14 +24,10 @@ public class ProducersController {
 
     @Path("/send")
     @POST
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public CompletionStage<String> sendMessage(String message) {
+    public CompletionStage<MessageId> sendMessage(MessageDTO message) {
         // if the pulsar is not available, then the AbstractChannel$AnnotatedConnectException is thrown
-        return producer.send(message,
-                messageId -> {
-                    System.out.println(messageId.toString());
-                    return messageId.toString();
-                });
+        return producer.send(message);
     }
 }

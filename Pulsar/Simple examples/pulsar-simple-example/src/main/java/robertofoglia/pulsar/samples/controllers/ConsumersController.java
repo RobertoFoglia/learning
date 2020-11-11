@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.CompletionStage;
 
-@Path("/consumers")
+@Path("/my-topic/consumers")
 public class ConsumersController {
     @Inject
     @Named("MyTopicService")

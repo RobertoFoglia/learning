@@ -1,9 +1,9 @@
 package robertofoglia.pulsar.samples.controllers;
 
-import org.apache.pulsar.client.api.MessageId;
 import robertofoglia.pulsar.samples.services.topics.api.MyTopicProducer;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.CompletionStage;
@@ -11,6 +11,7 @@ import java.util.concurrent.CompletionStage;
 @Path("/producers")
 public class ProducersController {
     @Inject
+    @Named("MyTopicService")
     MyTopicProducer producer;
 
     @GET
@@ -19,6 +20,7 @@ public class ProducersController {
         return "hello";
     }
 
+    @Path("/send")
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)

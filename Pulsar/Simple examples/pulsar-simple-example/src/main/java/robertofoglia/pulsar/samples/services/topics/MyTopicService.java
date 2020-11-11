@@ -1,34 +1,70 @@
 package robertofoglia.pulsar.samples.services.topics;
 
-import org.apache.pulsar.client.api.MessageId;
-import org.apache.pulsar.client.api.Producer;
-import org.apache.pulsar.client.api.PulsarClientException;
+import io.quarkus.arc.DefaultBean;
+import org.apache.pulsar.client.api.*;
+import robertofoglia.pulsar.samples.services.topics.api.MyTopicConsumer;
 import robertofoglia.pulsar.samples.services.topics.api.MyTopicProducer;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.List;
+import javax.enterprise.inject.Produces;
+import javax.inject.Named;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-@ApplicationScoped
-public class MyTopicService implements MyTopicProducer {
+public class MyTopicService implements MyTopicProducer, MyTopicConsumer {
 
-    private final Producer<byte[]> producer;
+    private Producer<byte[]> producer;
+    private Consumer<byte[]> consumer;
 
-    public MyTopicService() throws PulsarClientException {
-        producer = PulsarClientFactory.getClient()
+    private static int count = 0;
+
+    @ApplicationScoped
+    @Produces
+    @Named("MyTopicService")
+    MyTopicService getMyTopicService() throws PulsarClientException {
+        String topicName = "my-topic";
+        PulsarClient client = PulsarClientFactory.getClient();
+        producer = client
                 .newProducer()
                 .blockIfQueueFull(true)
-                .topic("my-topic").create();
+                .topic(topicName).create();
+
+        consumer = client
+                .newConsumer()
+                .topic(topicName)
+                .subscriptionName("my-subscription")
+                .ackTimeout(10, TimeUnit.SECONDS)
+                .subscribe();
+        return this;
     }
 
     @Override
     public <R> CompletableFuture<R> send(String message, Function<MessageId, R> onComplete) {
-        return producer.sendAsync(message.getBytes()).thenApply(onComplete);
+        String s = message + ++count;
+        return producer.sendAsync(s.getBytes())
+                .thenApply(messageId -> {
+                    System.out.println(s);
+                    return messageId;
+                })
+                .thenApply(onComplete);
     }
 
     @Override
-    public void send(List<String> messages) {
-        return;
+    public CompletableFuture<String> receive() {
+        CompletableFuture<String> resultFuture = new CompletableFuture<>();
+        consumer.receiveAsync()
+                .thenAcceptAsync(
+                        message -> {
+                            try {
+                                // message elaboration (Pulsar wants the ack after elaboration)
+                                consumer.acknowledge(message);
+                            } catch (PulsarClientException e) {
+                                resultFuture.completeExceptionally(e);
+                            }
+                            resultFuture.complete(new String(message.getData()));
+                        }
+                );
+        return resultFuture;
     }
 }

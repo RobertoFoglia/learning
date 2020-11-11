@@ -10,6 +10,7 @@ import javax.ws.rs.ext.Provider;
 public class PulsarClientExceptionHandler implements ExceptionMapper<PulsarClientException> {
     @Override
     public Response toResponse(PulsarClientException e) {
+        e.printStackTrace();
         return Response.serverError().entity(
 //                new ExceptionResponseEntity(e.getClass().getName(), e.getMessage())
                 e.getMessage()

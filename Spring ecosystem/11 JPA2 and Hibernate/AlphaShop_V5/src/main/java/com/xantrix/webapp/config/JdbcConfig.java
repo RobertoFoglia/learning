@@ -48,7 +48,7 @@ public class JdbcConfig
 		return dataSource;
 	}
 	
-	/*
+	/*     we comment it beacause the transaction is managed by Hibernate transaction manager
 	@Bean
 	public DataSourceTransactionManager transactionManager()
 	{

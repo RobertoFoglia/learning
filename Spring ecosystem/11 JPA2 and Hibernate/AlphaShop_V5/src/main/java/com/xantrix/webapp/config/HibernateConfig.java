@@ -22,6 +22,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import static org.hibernate.cfg.Environment.*;
 
 @Configuration
+// @@@ Global Transaction configuration - automatic management of the transactions
 @EnableTransactionManagement
 @ComponentScan({ "com.xantrix.webapp.config" })
 @PropertySource("classpath:application.properties")
@@ -32,7 +33,12 @@ public class HibernateConfig
 	
 	@Autowired
 	private DataSource dataSource;
-	
+
+	/**
+	 * @@@ Entity bean manager factory
+	 *
+	 * @return
+	 */
 	@Bean
 	LocalContainerEntityManagerFactoryBean entityManagerFactory()
 	{

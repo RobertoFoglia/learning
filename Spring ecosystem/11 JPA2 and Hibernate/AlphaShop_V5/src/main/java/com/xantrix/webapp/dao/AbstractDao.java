@@ -12,13 +12,16 @@ import javax.persistence.criteria.CriteriaQuery;
 
 //JPQL https://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm
 //CRITERIA API https://docs.oracle.com/javaee/7/tutorial/persistence-criteria.htm
- 
+// @@@  Management of the base queries
+// here we use the criteria API
 public abstract class AbstractDao<I extends Serializable, Id extends Serializable>
 	implements GenericRepository<I, Id>
 {
-	@PersistenceContext
-	protected EntityManager entityManager;
-	
+	// Hibernate session
+	@PersistenceContext     // the annotation create the persistent context for the entity manager
+	// It a wrapper of the session or context, it allows you to execute all queries
+	protected EntityManager entityManager;  // there is one entityManager for the application (unique cache and session)
+
 	protected final Class<I> entityClass;
 	
 	CriteriaBuilder builder;
@@ -29,7 +32,15 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 		this.entityClass = (Class<I>) ((ParameterizedType) 
 				this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
-	
+
+	/*
+
+	If you don't have any special requirements, as a rule of thumb, you should stick to the persist and merge methods,
+	because they are standardized and guaranteed to conform to the JPA specification.
+
+	*/
+
+
 	private CriteriaQuery<I> InitCriteria()
 	{
 		builder = this.entityManager.getCriteriaBuilder();
@@ -41,6 +52,7 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 	{
         CriteriaQuery<I> query = this.InitCriteria();
 
+        // criteria API example
         return this.entityManager.createQuery(
         		query.select(query.from(this.entityClass))).getResultList();
 	}
@@ -49,12 +61,12 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 	public I SelById(Id id)
 	{
 		CriteriaQuery<I> query = this.InitCriteria();
-			
+
 		return this.entityManager.createQuery(
 					query.where(
 							builder.equal(
 									query.from(this.entityClass).
-									get("id"), id))).
+									get("id"), id))). // with a filter
 					getSingleResult();
 			
 	}
@@ -62,6 +74,7 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 	@Override
 	public void Inserisci(I entity)
 	{
+		// Inserting
 		this.entityManager.persist(entity);
 		flushAndClear();
 	}
@@ -69,6 +82,7 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 	@Override
 	public void Aggiorna(I entity)
 	{
+		// Updating
 		this.entityManager.merge(entity); 
 		flushAndClear();
 	}
@@ -76,10 +90,12 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 	@Override
 	public void Elimina(I entity)
 	{
-		
-		this.entityManager.remove(this.entityManager.contains(entity) ? entity : this.entityManager.merge(entity));
+		// Deleting
+		this.entityManager.remove(
+				this.entityManager.contains(entity) ? // it manages the detach entity
+						entity :
+						this.entityManager.merge(entity)); // it attaches the entity to the persistent context (Hibernate session)
 		flushAndClear();
-		
 	}
 	
 	@Override
@@ -91,12 +107,16 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 				query.where(
 						builder.equal(
 								query.from(this.entityClass)
-								.get("id"), id)
+								.get("id"), id)  // with a filter
         )).executeUpdate();
 		
 		flushAndClear();
 	}
-	
+
+	/**
+	 * Save the data in the DB because the entityManager has a cache
+	 * The actual saving of data to the database occurs on committing the transaction or flushing the Session.
+	 */
 	private void flushAndClear() 
 	{
 	    entityManager.flush();

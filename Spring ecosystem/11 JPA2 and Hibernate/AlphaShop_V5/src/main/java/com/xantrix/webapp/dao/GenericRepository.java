@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
-
+// @@@  Management of the base queries
+// Generic interface
+// I is the entity type
+// E is the key
 public interface GenericRepository<I extends Serializable, E extends Serializable>
 {
 	@NotNull

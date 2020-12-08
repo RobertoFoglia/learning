@@ -33,8 +33,9 @@ public class Cards implements Serializable
 	
 	@Column(name = "OBSOLETO")
 	private String obsoleto;
-	
-	@OneToOne(mappedBy = "card")
+
+	// @@@ OneToOne
+	@OneToOne(mappedBy = "card") // the card field is in the 'Clienti' class
 	private Clienti cliente;
  	
 	public Cards() {}

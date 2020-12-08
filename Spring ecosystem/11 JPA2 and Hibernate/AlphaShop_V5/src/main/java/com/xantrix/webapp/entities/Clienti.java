@@ -14,14 +14,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
+/* @@@ @Entity and @Table */
 @Entity
-@Table(name = "CLIENTI")
+@Table(name = "CLIENTI")    // this annotation is optional
 public class Clienti  implements Serializable
 {
 	private static final long serialVersionUID = -6994272792307526864L;
 	
-	@Id
-	@Column(name = "CODFIDELITY")
+	@Id       // @@@ primary key
+	@Column(name = "CODFIDELITY")    // optional
 	private String codFidelity;
 	
 	@Column(name = "NOME")
@@ -50,16 +52,20 @@ public class Clienti  implements Serializable
 	
 	@Column(name = "STATO")
 	private String stato;
-	
+
+	// @@@ Date column
 	@Temporal(TemporalType.DATE)
 	@Column(name = "DATACREAZ")
 	private Date dataCreaz;
-	
+
+
+	// @@@ OneToOne
+	// @@@ FetchType - LAZY o EAGER (default)
 	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@PrimaryKeyJoinColumn   // @@@ Join with primary key - The binding is done with the primary key of the cards table
 	private Cards card;
-	
-	@OneToOne(mappedBy = "clienti", cascade = CascadeType.ALL, orphanRemoval = true)
+
+	@OneToOne(mappedBy = "clienti", cascade = CascadeType.ALL, orphanRemoval = true) // orphanRemoval = true if we delete a client then the system will even delete the 'utente'
 	private Utenti utenti;
 	
 	public Clienti() { }

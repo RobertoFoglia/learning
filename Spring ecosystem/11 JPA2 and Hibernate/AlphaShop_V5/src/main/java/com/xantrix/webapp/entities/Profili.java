@@ -18,14 +18,15 @@ public class Profili  implements Serializable
 	private static final long serialVersionUID = 7282021219523915306L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)   // @@@ Identity (autoincrement)
 	private long id;
 	
 	@Column(name = "TIPO")
 	private String tipo;
-	
+
+	// @@@ OneToMany
 	@ManyToOne
-	@JoinColumn(name = "CODFIDELITY", referencedColumnName = "codFidelity")
+	@JoinColumn(name = "CODFIDELITY", referencedColumnName = "codFidelity")   // @JoinColumn - name = the column name of the Profili
 	private Utenti utente;
 	
 	public Profili() {}

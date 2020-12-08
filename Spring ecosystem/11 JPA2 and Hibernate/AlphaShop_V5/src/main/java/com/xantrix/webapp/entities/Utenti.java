@@ -38,7 +38,8 @@ public class Utenti implements Serializable
 	@OneToOne
 	@PrimaryKeyJoinColumn
 	private Clienti clienti;
-	
+
+	// @@@ OneToMany
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,  mappedBy = "utente", orphanRemoval = true)
 	private Set<Profili> profili = new HashSet<>();
 

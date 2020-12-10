@@ -17,35 +17,41 @@ public class ClientiDaoImpl  extends AbstractDao<Clienti, String>
 	implements ClientiDao
 {
 
-	// CRITERIA API
+	// @@@ CRITERIA API with single result
 	@Override
 	public Clienti SelByCodFidelity(String CodFidelity)
 	{
+		// query builder - it is used for building the filters
 		CriteriaBuilder queryBuilder = entityManager.getCriteriaBuilder();
+		// query object that it will be passed to the query
 		CriteriaQuery<Clienti> queryDefinition = queryBuilder.createQuery(Clienti.class);
 		
 		Root<Clienti> recordset = queryDefinition.from(Clienti.class);
 		
 		queryDefinition.select(recordset)
 			.where(queryBuilder.equal(recordset.get("codFidelity"), CodFidelity));
-		
+
+		// Query creation
 		Clienti cliente = entityManager.createQuery(queryDefinition).getSingleResult();
-		
+
+		// detached the entities ???
 		entityManager.clear();
 		
 		return cliente;
 	}
 	
-	// CRITERIA API
+	// @@@ CRITERIA API with the list
 	@Override
 	public List<Clienti> SelByNominativo(String Nome)
 	{
 		
 		CriteriaBuilder queryBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Clienti> queryDefinition = queryBuilder.createQuery(Clienti.class);
-		
+
+		// like in SQL
 		String ToSearch = "%" + Nome + "%";
-		
+
+		// @@@ expression for the filters
 		Root<Clienti> recordset = queryDefinition.from(Clienti.class);
 		
 		Expression<String> exp1 = queryBuilder.concat(recordset.<String>get("nome"), " ");

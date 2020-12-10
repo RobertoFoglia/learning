@@ -76,40 +76,38 @@ public class ClientiDaoImpl  extends AbstractDao<Clienti, String>
 
 	}
 
+
+	/// @@@ JPQL
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Clienti> SelByComune(String Comune)
+	public List<Clienti> SelByComune(String comune)
 	{
-		String JPQL = "SELECT a FROM Clienti a WHERE a.comune = :comune";
-		
-		
-		List<Clienti> clienti =  entityManager.createQuery(JPQL)
-								 .setParameter("comune", Comune)
-								 .getResultList();
-		
-		return clienti;
+		return  entityManager
+				// JPQL query
+				.createQuery("SELECT a FROM Clienti a WHERE a.comune = :comune")
+				.setParameter("comune", comune)
+				.getResultList();
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<Clienti> SelByBollini(int NumBollini, String Tipo)
+	public List<Clienti> SelByBollini(int numBollini, String Tipo)
 	{
-		String JPQL = "";
+		String jpql = "";
 		
 		if (Tipo.equals(">"))
 		{
-			JPQL = "SELECT a FROM Clienti a JOIN a.card b WHERE b.bollini >= :qtabollini ORDER BY b.bollini DESC";
+			jpql = "SELECT a FROM Clienti a JOIN a.card b " +
+					"WHERE b.bollini >= :qtabollini ORDER BY b.bollini DESC";
 		}
 		else if (Tipo.equals("<"))
 		{
-			JPQL = "SELECT a FROM Clienti a JOIN a.card b WHERE b.bollini <= :qtabollini ORDER BY b.bollini ASC";
+			jpql = "SELECT a FROM Clienti a JOIN a.card b " +
+					"WHERE b.bollini <= :qtabollini ORDER BY b.bollini ASC";
 		}
 		
-		List<Clienti> clienti = entityManager.createQuery(JPQL)
-				.setParameter("qtabollini", NumBollini)
+		return entityManager.createQuery(jpql)
+				.setParameter("qtabollini", numBollini)
 				.getResultList();
-		
-		return clienti;
 	}
 	
 	@Override

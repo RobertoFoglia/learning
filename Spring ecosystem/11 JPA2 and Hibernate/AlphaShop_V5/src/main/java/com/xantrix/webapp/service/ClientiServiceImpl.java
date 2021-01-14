@@ -10,7 +10,7 @@ import com.xantrix.webapp.dao.ClientiDao;
 import com.xantrix.webapp.entities.Clienti;
 
 @Service("clientiService")
-@Transactional
+@Transactional   // all methods in the classes are in the transaction
 public class ClientiServiceImpl implements ClientiService
 {
 

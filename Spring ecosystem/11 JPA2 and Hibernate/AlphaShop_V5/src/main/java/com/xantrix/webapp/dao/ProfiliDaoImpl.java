@@ -34,7 +34,7 @@ public class ProfiliDaoImpl extends AbstractDao<Profili, Long>
 	public List<Profili> SelByIdFidelity(String IdFidelity)
 	{
 		List<Profili> recordset = super.SelTutti();
-		
+		// stream usage to filter in memory
 		recordset = recordset.stream()
 				.filter(u -> IdFidelity.contains(u.getUtente().getCodFidelity()))
 				.collect(Collectors.toList());
@@ -46,6 +46,7 @@ public class ProfiliDaoImpl extends AbstractDao<Profili, Long>
 	public void Elimina(Profili profilo)
 	{
 		//UTILIZZIAMO IL JPQL
+		// the deleting of a profile
 		entityManager.createQuery("delete from Profili where id = :id")
 		  .setParameter("id", profilo.getId())
 		  .executeUpdate();

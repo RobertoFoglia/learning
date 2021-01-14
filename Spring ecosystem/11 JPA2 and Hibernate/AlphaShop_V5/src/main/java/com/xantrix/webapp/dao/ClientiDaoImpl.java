@@ -146,6 +146,7 @@ public class ClientiDaoImpl  extends AbstractDao<Clienti, String>
 			
 			retVal = (String) entityManager
 					.createQuery(JPQL)
+					// one result
 					.setMaxResults(1)
 					.getSingleResult();
 		}
@@ -160,7 +161,7 @@ public class ClientiDaoImpl  extends AbstractDao<Clienti, String>
 	{
 		
 		long retVal = 0;
-		
+		// aggregation function
 		String JPQL = "SELECT SUM(b.bollini) FROM Clienti a JOIN a.card b ";
 		
 		retVal = (long) entityManager.createQuery(JPQL).getSingleResult();

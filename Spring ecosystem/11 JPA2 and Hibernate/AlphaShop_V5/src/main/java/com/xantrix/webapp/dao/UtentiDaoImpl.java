@@ -19,24 +19,13 @@ public class UtentiDaoImpl  extends AbstractDao<Utenti, Integer>
 	}
 	
 	@Override
-	public void Aggiorna(Utenti utente)
-	{
-		super.Aggiorna(utente);
-	}
-	
-	@Override
-	public void Elimina(Utenti utente)
-	{
-		super.Elimina(utente);
-	}
-	
-	@Override
 	public Utenti SelByIdFidelity(String idFidelity)
 	{
 		Utenti retVal = new Utenti();
 		
 		try
 		{
+			// the teacher uses the Criteria API, but here it is possible to use the JPQL
 			CriteriaBuilder queryBuilder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Utenti> queryDefinition = queryBuilder.createQuery(Utenti.class);
 			
